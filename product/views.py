@@ -26,7 +26,7 @@ class ProductDetail(APIView):
 
     def get(self, request, category_slug, product_slug, format=None):
         product = self.get_object(category_slug, product_slug)
-        serializer = CategorySerializer(category)
+        serializer = ProductSerializer(product)
         return Response(serializer.data)
 
 class CategoryDetail(APIView):
@@ -35,6 +35,7 @@ class CategoryDetail(APIView):
             return Category.objects.get(slug=category_slug)
         except Category.DoesNotExist:
             raise Http404
+
         
 @api_view(['POST'])
 def search(request):

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 # oyunun adı - yılı - kategorisi
@@ -17,9 +18,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    #def create_slug(self):
+    #    return slugify(self.name, allow_unicode=True)
 
     def get_absolute_url(self):
-        return f"/{self.slug}/"
+        return f"/{self.slug}"
 
         
 # ürünlerin modeli
@@ -32,15 +36,20 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     year = models.DateTimeField()
+    slug = models.SlugField()
 
     class Meta:
-        ordering = ('-year',)
+        ordering = ('-category',)
 
     def __str__(self):
         return self.name
 
+    #def create_slug(self):
+    #    return slugify(self.name, allow_unicode=True)
+
+
     def get_absolute_url(self):
-        return f"/{self.category.slug}/{self.title}/"
+        return f"/{self.category.slug}/{self.slug}/"
 
 
 

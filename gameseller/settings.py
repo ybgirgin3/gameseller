@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    'crispy_forms',
+    #'rest_framework.authtoken'
     'order.apps.OrderConfig',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
+
 ]
 
 MIDDLEWARE = [
