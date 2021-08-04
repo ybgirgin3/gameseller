@@ -40,13 +40,22 @@ INSTALLED_APPS = [
     
     'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',
     'order.apps.OrderConfig',
     'basket.apps.BasketConfig',
+    'rest_framework_simplejwt',
     #'rest_framework.authtoken'
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

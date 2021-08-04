@@ -12,7 +12,7 @@ from .serializers import ProductSerializer, CategorySerializer
 
 # Create your views here.
 class LatestProductsList(APIView):
-    # ana sayfada en son bakılmış olan son 4 elemanı listele
+     #ana sayfada en son bakılmış olan son 4 elemanı listele
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'product/home.html'
 
