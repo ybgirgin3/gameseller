@@ -1,37 +1,15 @@
 from django.db import models
-from product.models import Product
+from decimal import Decimal
 
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator
-
-# Create your models here.
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
+# in
+#from product.models import Product
+from django.contrib.auth.models import User
 
 
-class CartItem(BaseModel):
-    owner = models.ForeignKey(AbstractUser, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1, blank=False, null=False)
-
-    def __unicode__(self):
-        return "%x %s" % (self.quantity, self.product.name)
-
-
-class Order(BaseModel):
-    owner = models.ForeignKey(AbstractUser, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product, through='OrderProduct', through_fields=('order', 'product'))
-
-class OrderProduct(BaseModel):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
-
-    def __unicode__(self):
-        return "%x %s" % (self.quantity, self.product.name)
-
+# sepete ekleme kısmı
+class Cart(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart_owner")
+    #product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cart_item")
+    product = models.CharField(max_length=100)
+    quantity = models.PositiveIntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
