@@ -18,17 +18,18 @@ from .serializers import ProductSerializer, CategorySerializer
 # Create your views here.
 class LatestProductsList(APIView):
      #ana sayfada en son bakılmış olan son 4 elemanı listele
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'product/home.html'
+    #renderer_classes = [TemplateHTMLRenderer]
+    #template_name = 'product/home.html'
 
     def get(self, request, format=None):
         product = Product.objects.all()[0:4]
         serializer = ProductSerializer(product, many=True)
-        return Response({'serializer': serializer, 'products': product})
+        #return Response({'serializer': serializer, 'products': product})
+        return Response(serializer.data)
 
 class ProductDetail(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'product/detail.html'
+    #renderer_classes = [TemplateHTMLRenderer]
+    #template_name = 'product/detail.html'
 
     def get_object(self, category_slug, product_slug):
         try:
@@ -40,7 +41,8 @@ class ProductDetail(APIView):
     def get(self, request, category_slug, product_slug, format=None):
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
-        return Response({'serializer': serializer, 'product': product})
+        #return Response({'serializer': serializer, 'product': product})
+        return Response(serializer.data)
 
 class CategoryDetail(APIView):
     def get_object(self, category_slug):
@@ -58,12 +60,13 @@ class ProductSearch(generics.ListAPIView):
     search_fields = ['^slug']
 
 
-#@api_view(['POST'])
-#def search(request):
-#    query = request.data.get('query', '')
-#    if query:
-#        products = Product.objects.filter(Q(name__icontains=query) | Q(category__icontains=query))
-#        serializer = ProductSerializer(products, many=True)
-#        return Response(serializer.data)
-#    else:
-#        return Response({'products':[]})
+class CategorySearch(generics.ListAPIView):
+    permission_class = [AllowAny]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['^slug']
+
+
+
+
