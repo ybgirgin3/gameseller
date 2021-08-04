@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+#from basket.basket import Basket
 
 # Create your models here.
 # oyunun adı - yılı - kategorisi
@@ -33,6 +34,7 @@ class Product(models.Model):
     name    : oyunun adı
     year    : oyunun yılı
     """
+    #basket = models.ForeignKey(Basket, related_name = 'target_basket', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     year = models.IntegerField()
