@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     #'rest_framework.authtoken'
-    'order.apps.OrderConfig',
+    'basket.apps.BasketConfig',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
@@ -126,6 +126,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+BASKET_SESSION_ID = "basket"
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
