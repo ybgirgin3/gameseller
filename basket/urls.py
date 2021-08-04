@@ -1,8 +1,9 @@
 from django.urls import path
+from rest_framework import routers
 from . import views
 
-app_name = 'basket'
+router = routers.DefaultRouter()
+router.register(r'baskets', views.BasketViewSet)
+router.register(r'basket_items', views.BasketItemViewSet)
 
-urlpatterns = [
-    path("", views.basket_summary, name='basket_summary')
-]
+urlpatterns = router.urls

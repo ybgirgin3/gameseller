@@ -37,6 +37,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     year = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    available_inventory = models.PositiveIntegerField(default=0)
     slug = models.SlugField()
 
     class Meta:
