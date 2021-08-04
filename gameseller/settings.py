@@ -38,11 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',
     'order.apps.OrderConfig',
+    'basket.apps.BasketConfig',
+    'rest_framework_simplejwt',
+    #'rest_framework.authtoken'
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,6 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+BASKET_SESSION_ID = "basket"
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
