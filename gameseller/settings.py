@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
-    'order.apps.OrderConfig',
-    'basket.apps.BasketConfig',
+    #'order.apps.OrderConfig',
+    'cart.apps.CartConfig',
     'rest_framework_simplejwt',
     #'rest_framework.authtoken'
     'product.apps.ProductConfig',
@@ -136,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-BASKET_SESSION_ID = "basket"
+CART_SESSION_ID = "cart"
 
 
 
