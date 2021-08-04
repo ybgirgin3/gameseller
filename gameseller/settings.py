@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'rest_framework',
     'crispy_forms',
-    #'rest_framework.authtoken'
+    'rest_framework',
+    'order.apps.OrderConfig',
     'basket.apps.BasketConfig',
+    #'rest_framework.authtoken'
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
