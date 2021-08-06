@@ -2,3 +2,4 @@ django
 djangorestframework
 django-filter
 markdown
+stripe

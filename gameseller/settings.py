@@ -41,10 +41,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
-    #'order.apps.OrderConfig',
+    'stripe',
     'cart.apps.CartConfig',
-    'rest_framework_simplejwt',
-    #'rest_framework.authtoken'
+    #'rest_framework_simplejwt',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
@@ -52,7 +51,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
@@ -136,7 +135,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-CART_SESSION_ID = "cart"
 
 
 
