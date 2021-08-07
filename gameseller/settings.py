@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'stripe',
+    'rest_framework_simplejwt',
     'cart.apps.CartConfig',
-    #'rest_framework_simplejwt',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
