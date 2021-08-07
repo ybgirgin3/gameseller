@@ -1,9 +1,10 @@
-from register.models import Account
-from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .serializers import RegistrationSerializer
+from rest_framework.authtoken.models import Token
+
+# from .serializers import MyTokenObtainPairSerializer
 
 # for register
 @api_view(['POST',])
@@ -16,6 +17,8 @@ def registration_view(request):
             data['response'] = 'yeni hesap başarılı bir şekilde oluşturuldu'
             data['email'] = account.email
             data['username'] = account.username
+            token = Token.objects.get(user=account).key
+            data['token'] = token
 
         else:
             data = serializer.errors
@@ -49,7 +52,7 @@ def registration_view(request):
 
 
 
-# # for auth
+# for auth
 # class MyObtainTokenPairView(TokenObtainPairView):
 #     permission_classes = (AllowAny,)
 #     serializer_class = MyTokenObtainPairSerializer
