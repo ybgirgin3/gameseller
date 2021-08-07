@@ -1,7 +1,3 @@
-from typing_extensions import Required
-from django.core.exceptions import RequestAborted
-from django.db.models.fields import CharField
-
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -21,7 +17,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.object.all())])
+    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User)])
     password = serializers.CharField(write_only = True, required = True, validators = [validate_password])
     password1 = serializers.CharField(write_only = True, required = True)
 
