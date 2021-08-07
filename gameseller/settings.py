@@ -38,11 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # external apps
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
     'stripe',
     'rest_framework_simplejwt',
+
+    # created apps
     'cart.apps.CartConfig',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
@@ -53,6 +56,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT__PERMISSION_CLASSES': [
+        'rest_framework.permission.IsAuthenticated',
+
+    ]
 }
 
 
@@ -137,6 +144,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+AUTH_USER_MODEL = 'register.Account'
+APPEND_SLASH=False
 
 
 

@@ -24,7 +24,7 @@ class Category(models.Model):
     #    return slugify(self.name, allow_unicode=True)
 
     def get_absolute_url(self):
-        return f"/{self.slug}"
+        return f"categories/{self.slug}"
 
         
 # ürünlerin modeli
@@ -53,5 +53,5 @@ class Product(models.Model):
 
 
     def get_absolute_url(self):
-        return f"/{self.category.slug}/{self.slug}/"
+        return f"/products/{self.category.slug}/{self.slug}/"
 

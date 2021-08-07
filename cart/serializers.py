@@ -1,6 +1,5 @@
 from django.db import models
 from .models import Cart, DeliveryCost
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 

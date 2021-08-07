@@ -1,48 +1,50 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth.password_validation import validate_password
+from .models import Account
 from django.contrib.auth.models import User
+#from rest_framework.validators import UniqueValidator
+#from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-
-    @classmethod
-    def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-        # Add custom claims
-        token['username'] = user.username
-        return token
-
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User)])
-    password = serializers.CharField(write_only = True, required = True, validators = [validate_password])
-    password1 = serializers.CharField(write_only = True, required = True)
+class RegistrationSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
-        model = User
-        fields = ('username', 'password', 'password1', 'email', 'first_name', 'last_name')
+        model = Account
+        fields = ['email', 'username', 'password', 'password2']
         extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True}
+            'password': {'write_only': True}
         }
 
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({'password': 'Parolalar eşleşmiyor'})
-
-        return attrs
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            username = validated_data['username'],
-            email = validated_data['email'],
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name']
+    def save(self):
+        account = Account(
+            email = self.validated_data['email'],
+            username = self.validated_data['username'],
         )
-        user.set_password(validated_data['password'])
-        user.save()
+        password = self.validated_data['password']
+        password2 = self.validated_data['password2']
 
-        return user
+        if password != password2:
+            raise serializers.ValidationError({'password': 'Password not match'})
+        account.set_password(password)
+        account.save()
+        return account
+
+
+
+
+
+
+
+
+
+#class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#
+#    @classmethod
+#    def get_token(cls, user):
+#        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+#
+#        # Add custom claims
+#        token['username'] = user.username
+#        return token
+
