@@ -38,13 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    # external apps
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
-    'order.apps.OrderConfig',
-    'basket.apps.BasketConfig',
+    'stripe',
     'rest_framework_simplejwt',
-    #'rest_framework.authtoken'
+
+    # created apps
+    'cart.apps.CartConfig',
     'product.apps.ProductConfig',
     'register.apps.RegisterConfig',
 
@@ -52,8 +54,12 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+        'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT__PERMISSION_CLASSES': [
+        'rest_framework.permission.IsAuthenticated',
+
+    ]
 }
 
 
@@ -136,9 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-BASKET_SESSION_ID = "basket"
 
 
+AUTH_USER_MODEL = 'register.Account'
+APPEND_SLASH=False
 
 
 

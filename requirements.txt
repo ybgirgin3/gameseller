@@ -2,3 +2,5 @@ django
 djangorestframework
 django-filter
 markdown
+stripe
+django-crispy-forms

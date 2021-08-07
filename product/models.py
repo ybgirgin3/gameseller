@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
-#from basket.basket import Basket
 
+from django.contrib.auth.models import User
 # Create your models here.
 # oyunun adı - yılı - kategorisi
 
@@ -24,7 +24,7 @@ class Category(models.Model):
     #    return slugify(self.name, allow_unicode=True)
 
     def get_absolute_url(self):
-        return f"/{self.slug}"
+        return f"categories/{self.slug}"
 
         
 # ürünlerin modeli
@@ -34,8 +34,8 @@ class Product(models.Model):
     name    : oyunun adı
     year    : oyunun yılı
     """
-    #basket = models.ForeignKey(Basket, related_name = 'target_basket', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+    #owner = models.ForeignKey(User, related_name="product_owner", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     year = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -53,5 +53,5 @@ class Product(models.Model):
 
 
     def get_absolute_url(self):
-        return f"/{self.category.slug}/{self.slug}/"
+        return f"/products/{self.category.slug}/{self.slug}/"
 
