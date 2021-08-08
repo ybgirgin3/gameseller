@@ -145,7 +145,7 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'register.Account'
-APPEND_SLASH=False
+# APPEND_SLASH=False
 
 
 

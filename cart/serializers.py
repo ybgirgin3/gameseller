@@ -12,12 +12,5 @@ class CartSerializer(serializers.ModelSerializer):
 class DeliveryCostSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeliveryCost
-        fields = ['id', 'status', 'cost_per_delivery', 'cost_per_product', 'fixed_cost', 'created_at', 'update_at']
-
-
-
-
-#class UserSerializer(serializers.Serializer):
-#    class Meta:
-#        model = User
-#        fields = ['id', 'name', 'created_at', 'updated_at']
+        #fields = ['id', 'status', 'cost_per_delivery', 'cost_per_product', 'fixed_cost', 'created_at', 'update_at']
+        fields = '__all__'

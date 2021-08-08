@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.core.checks import messages
+from django.db.models.expressions import RawSQL
+from django.forms.utils import to_current_timezone
+from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -8,8 +12,19 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 #from rest_framework.renderers import TemplateHTMLRenderer
-from .models import Product, Category
+from .models import OrderProduct, Product, Category
 from .serializers import ProductSerializer, CategorySerializer
+from .models import OrderProduct
+from .models import Product, OrderProduct, Order, Address, Payment, Coupon
+from django.utils import timezone
+
+import string
+import random
+
+
+def create_ref_code():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
 
 # Create your views here.
 #class ProductURLPattern(APIView):
@@ -21,20 +36,12 @@ def ProductURLPattern(requests):
             'ürün listesi': '/products',
             'kategori listesi': '/categories',
             'kategori detayları': '/products/<slug:category_slug>',
-            'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/'
+            'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/',
+            'sepet': '/cart/',
+            'checkout': '/cart/checkout/'
             
     }
     return Response(api_urls)
-
-    #renderer_classes = [TemplateHTMLRenderer]
-    #template_name = 'product/home.html'
-
-    #def get(self, request, format=None):
-    #    product = Product.objects.all()[0:4]
-    #    serializer = ProductSerializer(product, many=True)
-    #    #return Response({'serializer': serializer, 'products': product})
-    #    return Response(serializer.data)
-
 
 class ProductDetail(APIView):
     #renderer_classes = [TemplateHTMLRenderer]
@@ -52,6 +59,7 @@ class ProductDetail(APIView):
         serializer = ProductSerializer(product)
         #return Response({'serializer': serializer, 'product': product})
         return Response(serializer.data)
+
 
 class CategoryDetail(APIView):
     def get_object(self, category_slug):
@@ -78,4 +86,32 @@ class CategorySearch(generics.ListAPIView):
 
 
 
+@login_required
+def add_to_cart(request, slug):
+    item = get_object_or_404(Product, slug=slug)
+    order_item, created = OrderProduct.objects.get_or_create(
+        item = item,
+        user = request.user,
+        ordered = False
+    )
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item.quantity += 1
+            order_item.save()
+            messages.info(request, "Bu ürünün sayısı güncellendi")
+            return Response(order)
+        else:
+            order.items.add(order_item)
+            messages.info(request, "Ürün sepetinize eklendi")
+            return Response(order)
 
+    else:
+        ordered_date = timezone.now()
+        order = Order.objects.create(
+            user=request.user, ordered_date=ordered_date
+        )
+        order.items.add(order_item)
+        messages.info(request, "ürün sepetinize eklenmiş")
+        return Response(order)

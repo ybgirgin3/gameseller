@@ -14,5 +14,12 @@
 
 {
 	"email": "berkay@gmail.com",
-	"password": "satanmetalady666",
+	"username": "berkaykanki",
+	"password": "satanmetalady666"
+}
+
+{
+    "email": "user1@example.com",
+    "username": "User One",
+    "password": "1234"
 }

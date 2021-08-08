@@ -14,13 +14,20 @@ class Cart(models.Model):
 
     def __str__(self) -> str:
         #return super().__str__()
-        return "{} - {} - {} - {} - {}".format(self.user,
-                                               self.item,
-                                               self.quantity,
-                                               self.created_at,
-                                               self.updated_at)
+        #return "{} - {} - {} - {} - {}".format(self.user,
+        #                                       self.item,
+        #                                       self.quantity,
+        #                                       self.created_at,
+        #                                       self.updated_at)
+        return f"{self.item}"
+
+    def get_total_price(self):
+        # quantity ile fiyatı çarp
+        return self.quantity * Product.price
+
 
 class DeliveryCost(models.Model):
+    item = models.ForeignKey(Cart, on_delete=models.CASCADE)
     status = models.CharField(max_length=7, choices=(('Active', 'active'), ('Passive', 'passive')), default='passive', null=False)
     cost_per_delivery = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     cost_per_product = models.DecimalField(max_digits=10, decimal_places=2, null=False)
