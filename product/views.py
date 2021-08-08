@@ -20,8 +20,8 @@ def ProductURLPattern(requests):
     api_urls = {
             'ürün listesi': '/products',
             'kategori listesi': '/categories',
-            'kategori detayları': 'products/<slug:category_slug>',
-            'ürün detayları': 'products/<slug:category_slug>/<slug:product_slug>/'
+            'kategori detayları': '/products/<slug:category_slug>',
+            'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/'
             
     }
     return Response(api_urls)
