@@ -1,7 +1,6 @@
 from django.db import models
 
 # user'ı contrib üzerinden değil register app üzerinden alacağız
-#from django.contrib.auth.models import User
 from django.conf import settings
 from product.models import Product
 

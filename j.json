@@ -2,5 +2,17 @@
 	"email": "berkay@gmail.com",
 	"username": "berkaykanki",
 	"password": "satanmetalady666",
-	"password1": "satanmetalady666"
+	"password2": "satanmetalady666"
+}
+
+{
+	"email": "deneme@gmail.com",
+	"username": "deneme",
+	"password": "denemetest",
+	"password2": "denemetest"
+}
+
+{
+	"email": "berkay@gmail.com",
+	"password": "satanmetalady666",
 }

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Account
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model, authenticate
+from django.utils.translation import gettext_lazy as _
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -26,3 +27,38 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.set_password(password)
         account.save()
         return account
+
+class LoginSerializer(serializers.Serializer):
+    model = Account
+    email = serializers.CharField(max_length=255)
+    password = serializers.CharField(
+        label = _("Password"),
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        max_length=128,
+        write_only=True
+    )
+
+    def validate(self, attrs):
+        username = attrs.get('email')
+        password = attrs.get('password')
+
+        if username and password:
+            user = authenticate(request=self.context.get('request'),
+                                username = username, password = password)
+            if not user:
+                msg = _('girilen bilgilere göre giriş yapılamıyor')
+                raise serializers.ValidationError(msg, code='authorization')
+
+        else:
+            msg = _('email adı ve parola değerleri boş olmaz')
+            raise serializers.ValidationError(msg, code='authorization')
+
+        attrs['user'] = user
+        return attrs
+
+
+
+
+
+                
