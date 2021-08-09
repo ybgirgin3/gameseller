@@ -1,15 +1,17 @@
+from decimal import Decimal
 from django.db import models
+from django.db.models import F, Sum
 
 # user'ı contrib üzerinden değil register app üzerinden alacağız
-from django.conf import settings
 from register.models import Account
 from product.models import Product
 
 # Create your models here.
 
 # create cart for a user
+
+
 class Cart(models.Model):
-    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -33,19 +35,29 @@ class CartItem(models.Model):
     def __str__(self) -> str:
         return f"{self.product} - {self.quantity}"
 
+        
+    @property
+    def total_price(self):
+        return self.cart.items.aggregate(
+            total_price = Sum(F('quantity') * F('product__price'))
+        )['total_price'] or Decimal('0')
+
+
 # order model
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(Account,
                              related_name='orders',
                              on_delete=models.CASCADE,
                              null=True,
                              blank=True)
     total = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return str(self.user)
+
 
 
 # order item model
@@ -58,5 +70,7 @@ class OrderItem(models.Model):
                                 on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField(null=True, blank=True)
 
+
     def __str__(self):
-        return f"{self.product.name}: {self.quantity}"
+        return f"{self.product.name}: {self.quantity} - {self.product.price * self.quantity}"
+
