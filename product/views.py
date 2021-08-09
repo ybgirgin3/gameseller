@@ -24,11 +24,20 @@ def ProductURLPattern(requests):
             'kategori listesi': '/categories',
             'kategori detayları': '/products/<slug:category_slug>',
             'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/',
-            'sepet': '/cart/',
-            'checkout': '/cart/checkout/'
+            'sepet': '/carts/',
+            'sepetteki ürünler': '/cart_items',
+            'checkout': '/checkout/',
+            'siparişi verilmiş ürünlerin listesi': '/order_items',
+
             
     }
     return Response(api_urls)
+
+#router.register(r'carts', views.CartViewSet)
+#router.register(r'cart_items', views.CartItemViewSet)
+#router.register(r'orders', views.OrderViewSet)
+#router.register(r'order_items', views.OrderItemViewSet)
+
 
 class ProductDetail(APIView):
     #renderer_classes = [TemplateHTMLRenderer]

@@ -8,7 +8,7 @@ class UserSerializer(serializers.Serializer):
     class Meta:
         #model = settings.AUTH_USER_MODEL
         model = Account
-        fields = ('username', 'email') 
+        fields = ('username', 'email', 'password') 
 
 class CartSerializer(serializers.ModelSerializer):
     

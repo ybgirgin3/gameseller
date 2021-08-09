@@ -2,13 +2,15 @@ from django.db import models
 
 # user'ı contrib üzerinden değil register app üzerinden alacağız
 from django.conf import settings
+from register.models import Account
 from product.models import Product
 
 # Create your models here.
 
 # create cart for a user
 class Cart(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -29,7 +31,7 @@ class CartItem(models.Model):
     quantity = models.PositiveBigIntegerField(default=1, null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.cart} - {self.product} - {self.quantity}"
+        return f"{self.product} - {self.quantity}"
 
 # order model
 class Order(models.Model):

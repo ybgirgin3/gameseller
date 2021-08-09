@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from cart.views import checkout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('register.urls')),
     path('', include('product.urls')),
     path('', include('cart.urls')),
+    path('checkout/', checkout)
 ]
