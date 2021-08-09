@@ -1,8 +1,9 @@
+register
 {
 	"email": "berkay@gmail.com",
-	"username": "berkaykanki",
-	"password": "satanmetalady666",
-	"password2": "satanmetalady666"
+	"username": "berkaygirgin",
+	"password": "berkay1234",
+	"password2": "berkay1234"
 }
 
 {
@@ -12,10 +13,12 @@
 	"password2": "denemetest"
 }
 
+-------------
+# login
 {
 	"email": "berkay@gmail.com",
-	"username": "berkaykanki",
-	"password": "satanmetalady666"
+	"username": "berkaygirgin",
+	"password": "berkay1234"
 }
 
 {
