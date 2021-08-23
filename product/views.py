@@ -20,16 +20,16 @@ from rest_framework.decorators import api_view
 @api_view(['GET'])
 def ProductURLPattern(requests):
     api_urls = {
-            'ürün listesi': '/products',
-            'kategori listesi': '/categories',
-            'kategori detayları': '/products/<slug:category_slug>',
-            'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/',
-            'sepet': '/carts/',
-            'sepetteki ürünler': '/cart_items',
-            'checkout': '/checkout/',
-            'siparişi verilmiş ürünlerin listesi': '/order_items',
+        'ürün listesi': '/products',
+        'kategori listesi': '/categories',
+        'kategori detayları': '/products/<slug:category_slug>',
+        'ürün detayları': '/products/<slug:category_slug>/<slug:product_slug>/',
+        'sepet': '/carts/',
+        'sepetteki ürünler': '/cart_items',
+        'checkout': '/checkout/',
+        'siparişi verilmiş ürünlerin listesi': '/order_items',
 
-            
+
     }
     return Response(api_urls)
 
@@ -46,14 +46,14 @@ class ProductDetail(APIView):
     def get_object(self, category_slug, product_slug):
         try:
             return Product.objects.filter(category__slug=category_slug).get(slug=product_slug)
-        
+
         except Product.DoesNotExist:
             raise Http404
 
     def get(self, request, category_slug, product_slug, format=None):
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
-        #return Response({'serializer': serializer, 'product': product})
+        # return Response({'serializer': serializer, 'product': product})
         return Response(serializer.data)
 
 
@@ -64,7 +64,12 @@ class CategoryDetail(APIView):
         except Category.DoesNotExist:
             raise Http404
 
-        
+    def get(self, request, category_slug, format=None):
+        category = self.get_object(category_slug)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+
+
 class ProductSearch(generics.ListAPIView):
     permission_class = [AllowAny]
     queryset = Product.objects.all()
@@ -79,4 +84,3 @@ class CategorySearch(generics.ListAPIView):
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['^slug']
-
