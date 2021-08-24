@@ -7,3 +7,7 @@ __branches__
 * dev -> unstable version
 
 
+__notes__
+* --run-syncdb: syncs db without make migrations
+
+

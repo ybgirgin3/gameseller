@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # external apps
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
     'stripe',
     'rest_framework_simplejwt',
+    # 'cart',
+
 
     # created apps
     'cart.apps.CartConfig',
@@ -53,6 +55,8 @@ INSTALLED_APPS = [
     'register.apps.RegisterConfig',
 
 ]
+
+CART_SESSION_ID = 'cart'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -88,6 +92,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # added for external cart lib
+                # 'cart.context_processor.cart_total_amount'
             ],
         },
     },
@@ -148,7 +154,6 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'register.Account'
 # APPEND_SLASH=False
-
 
 
 # Default primary key field type
